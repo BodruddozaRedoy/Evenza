@@ -1,0 +1,52 @@
+[
+  {
+    "title": "React Masterclass Workshop",
+    "name": "Alice Rahman",
+    "dateTime": "2025-07-05T14:00:00",
+    "location": "Dhaka Innovation Hub",
+    "description": "A hands-on workshop covering advanced React concepts like hooks, context, and performance tuning.",
+    "attendeeCount": 12,
+    "image": "https://kinsta.com/wp-content/uploads/2023/04/react-must-be-in-scope-when-using-jsx.jpg",
+    "category": "Workshops & Seminars"
+  },
+  {
+    "title": "Summer Music Fest 2025",
+    "name": "Tanvir Hasan",
+    "dateTime": "2025-07-10T18:30:00",
+    "location": "Gulshan Park Amphitheater",
+    "description": "Enjoy live performances from top bands, street food, and a festive summer vibe.",
+    "attendeeCount": 89,
+    "image": "https://images.unsplash.com/photo-1506157786151-b8491531f063?fit=crop&w=800&q=80",
+    "category": "Music & Concerts"
+  },
+  {
+    "title": "Tech for Good Hackathon",
+    "name": "Sadia Noor",
+    "dateTime": "2025-07-02T09:00:00",
+    "location": "Bangladesh University of Technology",
+    "description": "A 24-hour coding challenge to build solutions that benefit social and environmental causes.",
+    "attendeeCount": 24,
+    "image": "https://images.unsplash.com/photo-1551434678-e076c223a692?fit=crop&w=800&q=80",
+    "category": "Tech & Hackathons"
+  },
+  {
+    "title": "Startup Networking Night",
+    "name": "Faisal Ahmed",
+    "dateTime": "2025-07-04T19:00:00",
+    "location": "Banani Business Club",
+    "description": "Connect with fellow entrepreneurs, investors, and professionals in an engaging, pitch-free environment.",
+    "attendeeCount": 33,
+    "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT4ZkYU_buCeZv3PT6kivl3kc1aOy7w3Ozj-g&s",
+    "category": "Tech & Hackathons"
+  },
+  {
+    "title": "Mindfulness & Wellness Retreat",
+    "name": "Dr. Mehzabin Chowdhury",
+    "dateTime": "2025-07-06T08:00:00",
+    "location": "Sylhet Eco Resort",
+    "description": "A peaceful day retreat focusing on meditation, stress relief, yoga, and emotional wellness.",
+    "attendeeCount": 15,
+    "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR4NMz1A1Kxgun7BVKcWFIUZdXJjgtW7VZYdw&s",
+    "category": "Sports & Fitness"
+  }
+]
