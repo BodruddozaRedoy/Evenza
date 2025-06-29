@@ -1,5 +1,6 @@
-import React from "react";
-import { NavLink } from "react-router-dom";
+import React, { useContext } from "react";
+import { Link, NavLink } from "react-router-dom";
+import { AuthContext } from "../context/AuthContext";
 
 const navLinks = [
   {
@@ -21,6 +22,11 @@ const navLinks = [
 ];
 
 export default function Navbar() {
+  const {user, logout} = useContext(AuthContext)
+  console.log(user)
+  const handleLogOut = () => {
+    logout()
+  }
   return (
     <div className="flex items-center justify-between px-40 mx-auto py-5 shadow-md w-full">
       {/* navbar title  */}
@@ -34,7 +40,9 @@ export default function Navbar() {
               to={link.links}
               className={({ isActive }) =>
                 `cursor-pointer select-none ${
-                  isActive ? "text-primary font-semibold" : "hover:text-[#ED4A43]"
+                  isActive
+                    ? "text-primary font-semibold"
+                    : "hover:text-[#ED4A43]"
                 }`
               }
             >
@@ -46,10 +54,15 @@ export default function Navbar() {
 
       {/* navbar end (Sign In / Avatar dropdown) */}
       <div>
-        <button className="bg-primary py-3 px-5 mt-5 text-white rounded-md cursor-pointer select-none">
-          Sign In
-        </button>
-        <div className="dropdown dropdown-end">
+        {
+          !user && <Link to={"login"}>
+          <button className="bg-primary py-3 px-5 mt-5 text-white rounded-md cursor-pointer select-none">
+            Sign In
+          </button>
+        </Link>
+        }
+        {
+          user && <div className="dropdown dropdown-end">
           <div
             tabIndex={0}
             role="button"
@@ -58,7 +71,7 @@ export default function Navbar() {
             <div className="w-20 rounded-full">
               <img
                 alt="Tailwind CSS Navbar component"
-                src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp"
+                src={user?.photoURL}
               />
             </div>
           </div>
@@ -66,12 +79,14 @@ export default function Navbar() {
             tabIndex={0}
             className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow"
           >
-            <li>UserName</li>
-            <button className="bg-primary py-3 px-5 mt-5 text-white rounded-md cursor-pointer select-none">
+            <li>{user?.name}</li>
+            <button onClick={handleLogOut} className="bg-primary py-3 px-5 mt-5 text-white rounded-md cursor-pointer select-none">
               LogOut
             </button>
           </ul>
+          
         </div>
+        }
       </div>
     </div>
   );

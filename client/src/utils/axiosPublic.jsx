@@ -1,5 +1,5 @@
 import axios from "axios";
 
 export const axiosPublic = axios.create({
-    url: ''
+    baseURL: "http://localhost:5000/api"
 })

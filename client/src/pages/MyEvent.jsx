@@ -1,9 +1,15 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import useAllEvents from "../hooks/useAllEvents";
 import dayjs from "dayjs";
+import { axiosPublic } from "../utils/axiosPublic";
+import { AuthContext } from "../context/AuthContext";
+import toast from "react-hot-toast";
+import Swal from 'sweetalert2'
 
-export default function MyEvent({ userName }) {
+export default function MyEvent() {
   const { events } = useAllEvents();
+  const { user } = useContext(AuthContext);
+
   const [myEvents, setMyEvents] = useState([]);
   const [editingEvent, setEditingEvent] = useState(null);
   const [formData, setFormData] = useState({
@@ -15,15 +21,13 @@ export default function MyEvent({ userName }) {
     image: "",
   });
 
-  // Filter events by current user
   useEffect(() => {
-    if (events && userName) {
-      const filtered = events.filter((ev) => ev.name === userName);
+    if (events && user?.email) {
+      const filtered = events.filter((ev) => ev.user === user.email);
       setMyEvents(filtered);
     }
-  }, [events, userName]);
+  }, [events, user]);
 
-  // Open edit modal and fill form data
   const openEditModal = (event) => {
     setEditingEvent(event);
     setFormData({
@@ -36,55 +40,74 @@ export default function MyEvent({ userName }) {
     });
   };
 
-  // Close modal
-  const closeModal = () => {
-    setEditingEvent(null);
-  };
+  const closeModal = () => setEditingEvent(null);
 
-  // Handle form input change
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  // Update event in local state (replace with API call)
-  const handleUpdate = (e) => {
+  const handleUpdate = async (e) => {
     e.preventDefault();
     if (!editingEvent) return;
 
-    const updatedEvent = {
-      ...editingEvent,
-      ...formData,
-    };
-
-    setMyEvents((prev) =>
-      prev.map((ev) => (ev._id === editingEvent._id ? updatedEvent : ev))
-    );
-    closeModal();
-  };
-
-  // Delete event with confirmation
-  const handleDelete = (id) => {
-    if (!id) return;
-    const confirmDelete = window.confirm(
-      "Are you sure you want to delete this event?"
-    );
-    if (confirmDelete) {
-      setMyEvents((prev) => prev.filter((ev) => ev._id !== id));
+    try {
+      const res = await axiosPublic.put(`/event/${editingEvent._id}`, formData);
+      if (res.data.success) {
+        const updated = res.data.data;
+        toast.success("Updated");
+        setMyEvents((prev) =>
+          prev.map((ev) => (ev._id === updated._id ? updated : ev))
+        );
+        closeModal();
+      }
+    } catch (err) {
+      console.error("Update failed:", err.message);
     }
   };
+
+  const handleDelete = async (id) => {
+  const result = await Swal.fire({
+    title: "Do you want to delete this event?",
+    text: "This action cannot be undone.",
+    icon: "warning",
+    showDenyButton: true,
+    confirmButtonColor: "#d33",
+    denyButtonColor: "#3085d6",
+    confirmButtonText: "Yes, delete it!",
+    denyButtonText: "Cancel",
+  });
+
+  if (result.isConfirmed) {
+    try {
+      const res = await axiosPublic.delete(`/event/${id}`);
+      if (res.data.success) {
+        toast.success("Event deleted successfully!");
+        setMyEvents((prev) => prev.filter((ev) => ev._id !== id));
+      }
+    } catch (err) {
+      console.error("Delete failed:", err.message);
+      toast.error("Failed to delete event.");
+    }
+  } else if (result.isDenied) {
+    Swal.fire("Deletion cancelled", "", "info");
+  }
+};
+
 
   return (
     <div className="max-w-6xl mx-auto px-4 py-10">
       <h1 className="text-3xl font-bold mb-8 text-center">My Events</h1>
 
       {myEvents.length === 0 ? (
-        <p className="text-center text-gray-500">You have not added any events yet.</p>
+        <p className="text-center text-gray-500">
+          You have not added any events yet.
+        </p>
       ) : (
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
           {myEvents.map((event) => (
             <div
-              key={event._id || event.title}
+              key={event._id}
               className="bg-white rounded-lg shadow p-5 flex flex-col"
             >
               {event.image && (
@@ -101,7 +124,9 @@ export default function MyEvent({ userName }) {
               </p>
               <p className="text-gray-600 mb-3">{event.location}</p>
               <p className="text-gray-700 flex-grow">{event.description}</p>
-              <p className="mt-3 font-semibold">Attendees: {event.attendeeCount}</p>
+              <p className="mt-3 font-semibold">
+                Attendees: {event.attendeeCount}
+              </p>
 
               <div className="mt-4 flex gap-3 justify-end">
                 <button

@@ -1,7 +1,11 @@
-import React, { useState } from "react";
-import dayjs from "dayjs";
+import React, { useContext, useState } from "react";
+import axios from "axios";
+import { axiosPublic } from "../utils/axiosPublic";
+import toast from "react-hot-toast";
+import { AuthContext } from "../context/AuthContext";
 
 export default function AddEvent() {
+  const {user} = useContext(AuthContext)
   const [formData, setFormData] = useState({
     title: "",
     name: "",
@@ -14,6 +18,7 @@ export default function AddEvent() {
   });
 
   const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -23,29 +28,39 @@ export default function AddEvent() {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Simple validation
     const { title, name, dateTime, location, description, category } = formData;
     if (!title || !name || !dateTime || !location || !description || !category) {
-      return setError("Please fill in all fields.");
+      setSuccess("");
+      return setError("Please fill in all required fields.");
     }
-    setError("");
 
-    // You can send it to your backend or update global state
-    console.log("Event Submitted:", formData);
-
-    // Reset
-    setFormData({
-      title: "",
-      name: "",
-      dateTime: "",
-      location: "",
-      description: "",
-      attendeeCount: 0,
-      image: "",
-      category: "",
-    });
+    try {
+      const data = {
+        ...formData,
+        user: user?.email
+      }
+      const res = await axiosPublic.post("/event", data);
+      if (res.data.success) {
+        toast.success("Event added successfully!")
+        setSuccess("Event added successfully!");
+        setError("");
+        setFormData({
+          title: "",
+          name: "",
+          dateTime: "",
+          location: "",
+          description: "",
+          attendeeCount: 0,
+          image: "",
+          category: "",
+        });
+      }
+    } catch (err) {
+      setError(err.response?.data?.message || "Something went wrong.");
+      setSuccess("");
+    }
   };
 
   return (
@@ -53,6 +68,7 @@ export default function AddEvent() {
       <h1 className="text-3xl font-bold mb-6 text-center">Add New Event</h1>
       <form onSubmit={handleSubmit} className="space-y-5 bg-white p-8 rounded-xl shadow">
         {error && <p className="text-red-500 text-center">{error}</p>}
+        {success && <p className="text-green-600 text-center">{success}</p>}
 
         <input
           type="text"
