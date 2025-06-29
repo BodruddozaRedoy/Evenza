@@ -12,14 +12,14 @@ export default function Events() {
   useEffect(() => {
     let filtered = events;
 
-    // 🔍 Search by title
+    //  search by title
     if (search.trim()) {
-      filtered = filtered.filter((event) =>
+      filtered = filtered?.filter((event) =>
         event.title.toLowerCase().includes(search.toLowerCase())
       );
     }
 
-    // 🗓️ Filter by date
+    //  filter by date
     const now = dayjs();
     if (filter === 'Today') {
       filtered = filtered.filter((event) =>
@@ -48,8 +48,8 @@ export default function Events() {
       );
     }
 
-    // Sort by newest date first
-    filtered = filtered.sort(
+    // sort by newest date first
+    filtered = filtered?.sort(
       (a, b) => dayjs(b.dateTime).valueOf() - dayjs(a.dateTime).valueOf()
     );
 
@@ -86,7 +86,7 @@ export default function Events() {
         <p className="text-center text-gray-400">No events found.</p>
       ) : (
         <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-          {filteredEvents.map((event, i) => (
+          {filteredEvents?.map((event, i) => (
             <EventCard key={i} event={event} />
           ))}
         </div>

@@ -95,3 +95,20 @@ eventRoutes.delete("/event/:id", async (req, res) => {
     });
   }
 });
+
+eventRoutes.put("/event/:id", async (req, res) => {
+  try {
+    const updated = await Event.findByIdAndUpdate(
+      req.params.id,
+      { $set: req.body },
+      { new: true }
+    );
+    res.status(200).json({
+      success: true,
+      message: "Event updated successfully",
+      data: updated,
+    });
+  } catch (err) {
+    res.status(400).json({ success: false, message: err.message });
+  }
+});
