@@ -27,7 +27,7 @@ export default function EventCategory() {
   return (
     <div className="flex flex-col items-center gap-5">
       <h1 className="text-3xl font-bold">Browse Events by Category</h1>
-      <p className="text-gray-400 w-2/4 text-center">
+      <p className="text-gray-400 md:w-2/4 text-center">
         Find events that match your interests — whether it's tech, music, sports, or more. Explore curated categories to easily discover events you'll love.
       </p>
 
@@ -45,7 +45,7 @@ export default function EventCategory() {
         ))}
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mt-10">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mt-10">
         {filteredEvents.length > 0 ? (
           filteredEvents.map((event, index) => (
             <EventCard key={index} event={event} />

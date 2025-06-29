@@ -12,7 +12,7 @@ export default function Home() {
       <div>
         <Banner/>
       </div>
-      <div className='px-40'>
+      <div className='p-5 xl:px-40'>
         <EventCategory/>
       </div>
       <div>
