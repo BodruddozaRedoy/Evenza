@@ -86,7 +86,7 @@ An explanation of why the instructor role was chosen over a web developer role, 
 ## Installation and Setup
 1. **Clone the Repository**:
    ```bash
-   git clone <repository-url>
+   git clone https://github.com/BodruddozaRedoy/Evenza.git
    ```
 2. **Install Dependencies**:
    - Backend: Navigate to the `backend` folder and run:
@@ -113,7 +113,7 @@ An explanation of why the instructor role was chosen over a web developer role, 
      npm start
      ```
 5. **Access the Application**:
-   - Open your browser and navigate to `http://localhost:3000`.
+   - Open your browser and navigate to `http://localhost:5173`.
 
 ## Technologies Used
 - **MongoDB**: Database for storing event and user data.
