@@ -96,19 +96,50 @@ eventRoutes.delete("/event/:id", async (req, res) => {
   }
 });
 
-eventRoutes.put("/event/:id", async (req, res) => {
+// POST /event/join/:id
+eventRoutes.post("/event/join/:id", async (req, res) => {
+  const eventId = req.params.id;
+  const { email } = req.body;
+
+  if (!email) {
+    return res.status(400).json({
+      success: false,
+      message: "User email is required",
+    });
+  }
+
   try {
-    const updated = await Event.findByIdAndUpdate(
-      req.params.id,
-      { $set: req.body },
-      { new: true }
-    );
+    const event = await Event.findById(eventId);
+
+    if (!event) {
+      return res.status(404).json({
+        success: false,
+        message: "Event not found",
+      });
+    }
+
+    if (event.attendees.includes(email)) {
+      return res.status(400).json({
+        success: false,
+        message: "You have already joined this event.",
+      });
+    }
+
+    event.attendees.push(email);
+    event.attendeeCount += 1;
+    await event.save();
+
     res.status(200).json({
       success: true,
-      message: "Event updated successfully",
-      data: updated,
+      message: "Joined event successfully.",
+      data: event,
     });
   } catch (err) {
-    res.status(400).json({ success: false, message: err.message });
+    res.status(500).json({
+      success: false,
+      message: "Failed to join event.",
+      error: err.message,
+    });
   }
 });
+

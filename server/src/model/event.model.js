@@ -9,7 +9,11 @@ const eventSchema = new mongoose.Schema({
   attendeeCount: { type: Number, default: 0 },
   image: { type: String },
   category: { type: String },
-  user: {type: String, required: true}
+  user: {type: String, required: true},
+  attendees: {
+    type: [String],
+    default: [],
+  },
 });
 
 export const Event = mongoose.model("Event", eventSchema);
