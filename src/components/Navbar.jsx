@@ -1,4 +1,5 @@
 import React from "react";
+import { NavLink } from "react-router-dom";
 
 const navLinks = [
   {
@@ -24,18 +25,26 @@ export default function Navbar() {
     <div className="flex items-center justify-between px-40 mx-auto py-5 shadow-md w-full">
       {/* navbar title  */}
       <h1 className="text-4xl font-bold text-primary">Evenza</h1>
+
       {/* navbar links  */}
       <ul className="flex items-center gap-10">
-        {navLinks?.map((link, index) => (
-          <li
-            key={index}
-            className="cursor-pointer select-none hover:text-[#ED4A43]"
-          >
-            {link.title}
+        {navLinks.map((link, index) => (
+          <li key={index}>
+            <NavLink
+              to={link.links}
+              className={({ isActive }) =>
+                `cursor-pointer select-none ${
+                  isActive ? "text-primary font-semibold" : "hover:text-[#ED4A43]"
+                }`
+              }
+            >
+              {link.title}
+            </NavLink>
           </li>
         ))}
       </ul>
-      {/* navbar end */}
+
+      {/* navbar end (Sign In / Avatar dropdown) */}
       <div>
         <button className="bg-primary py-3 px-5 mt-5 text-white rounded-md cursor-pointer select-none">
           Sign In
@@ -58,7 +67,6 @@ export default function Navbar() {
             className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow"
           >
             <li>UserName</li>
-            {/* <li><a>Logout</a></li> */}
             <button className="bg-primary py-3 px-5 mt-5 text-white rounded-md cursor-pointer select-none">
               LogOut
             </button>

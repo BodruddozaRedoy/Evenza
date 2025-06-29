@@ -13,7 +13,7 @@ function App() {
     <BrowserRouter>
       <div className="flex flex-col min-h-screen w-full">
         <Navbar />
-        <div className="flex-1  my-10 ">
+        <div className="flex-1  my-5 ">
           <MainRoutes />
         </div>
         <Footer />
