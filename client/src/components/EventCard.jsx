@@ -75,6 +75,9 @@ export default function EventCard({ event }) {
         </div>
       </div>
 
+      <hr className="text-primary"/>
+      <p className="font-semibold text-gray-400">{event?.description}</p>
+
       <button
         onClick={handleJoin}
         disabled={joined}
