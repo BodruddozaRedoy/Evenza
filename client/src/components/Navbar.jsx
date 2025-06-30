@@ -20,7 +20,8 @@ export default function Navbar() {
   return (
     <header className="bg-white shadow-md w-full">
       <div className="flex items-center justify-between px-6 md:px-20 py-4">
-        <h1 className="text-3xl font-bold text-primary">Evenza</h1>
+        {/* <h1 className="text-3xl font-bold text-primary">Evenza</h1> */}
+        <img className="w-40" src="/logo.png" alt="" />
 
         {/* Desktop Links */}
         <nav className="hidden md:flex items-center gap-8">
